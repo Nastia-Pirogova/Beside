@@ -7,6 +7,7 @@ export type Screen =
   | 'familyHome'
   | 'createRequest'
   | 'published'
+  | 'helperOrders'
   | 'tracking'
   | 'completedTask'
   | 'familyRequests'
@@ -111,6 +112,7 @@ export interface HelpRequest {
 export interface Review {
   id: string;
   requestId: string;
+  helperId?: string;
   rating: number;
   comment: string;
   authorName: string;
