@@ -273,7 +273,7 @@ export const demoAvailableRequests: HelpRequest[] = [
   {
     id: 'ar4',
     category: 'care',
-    description: 'Потрібен професійний догляд за лежачим хворим. Перев'язки та контроль ліків.',
+    description: 'Потрібен професійний догляд за лежачим хворим. Перевязки та контроль ліків.',
     date: '2026-10-05',
     time: '09:00',
     address: 'вул. Київська, 45',
