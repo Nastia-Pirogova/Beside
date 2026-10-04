@@ -1,18 +1,22 @@
-export type UserRole = 'family' | 'helper';
+export type UserRole = 'customer' | 'helper';
 
 export type Screen =
   | 'welcome'
-  | 'familyRegister'
-  | 'addRelative'
+  | 'register'
+  | 'login'
+  | 'resetPassword'
+  | 'roleChoice'
   | 'familyHome'
   | 'createRequest'
-  | 'published'
-  | 'helperOrders'
+  | 'addRelative'
+  | 'editRelative'
+  | 'familyRequests'
   | 'tracking'
   | 'completedTask'
-  | 'familyRequests'
+  | 'published'
   | 'messages'
   | 'profile'
+  | 'editProfile'
   | 'trustSafety'
   | 'helperOnboarding'
   | 'helperHome'
@@ -20,7 +24,8 @@ export type Screen =
   | 'helperActiveTask'
   | 'helperTasks'
   | 'helperMessages'
-  | 'helperProfile';
+  | 'helperProfile'
+  | 'helperEditProfile';
 
 export type Relationship = 'mother' | 'father' | 'grandmother' | 'grandfather' | 'other';
 
@@ -41,99 +46,79 @@ export type Category =
 
 export type ServiceType = 'basic' | 'specialized';
 
-export type RequestStatus =
-  | 'searching'
-  | 'accepted'
-  | 'on_the_way'
-  | 'in_progress'
-  | 'completed'
-  | 'reviewed'
-  | 'cancelled';
+export type OrderStatus = 'open' | 'accepted' | 'on_the_way' | 'in_progress' | 'completed' | 'cancelled';
 
-export interface ElderlyRelative {
+export interface Profile {
   id: string;
+  userId: string;
+  role: UserRole;
+  firstName: string;
+  lastName: string;
+  phone: string;
+  avatarUrl: string | null;
+  city: string;
+}
+
+export interface Relative {
+  id: string;
+  customerId: string;
   name: string;
   age: number;
+  phone: string;
   city: string;
   address: string;
-  phone: string;
   relationship: Relationship;
+  notes: string | null;
 }
 
-export interface FamilyUser {
+export interface HelperProfile {
   id: string;
-  name: string;
-  phone: string;
-  email: string;
-  relative: ElderlyRelative;
-}
-
-export interface HelperUser {
-  id: string;
-  name: string;
-  phone: string;
-  email: string;
-  photo: string;
-  rating: number;
-  completedTasks: number;
-  verified: boolean;
-  trained: boolean;
+  userId: string;
   bio: string;
-  distanceKm: number;
-  available: boolean;
-  specialties: Category[];
-  qualifications: string[];
-  qualified: boolean;
+  city: string;
+  verificationStatus: 'pending' | 'verified' | 'rejected';
+  phoneVerified: boolean;
+  identityVerified: boolean;
+  trainingCompleted: boolean;
+  qualificationVerified: boolean;
+  rating: number;
+  completedOrders: number;
 }
 
-export interface HelpRequest {
+export interface Order {
   id: string;
+  customerId: string;
+  relativeId: string | null;
+  helperId: string | null;
   category: Category;
+  title: string;
   description: string;
-  date: string;
-  time: string;
+  city: string;
   address: string;
-  approximateArea: string;
-  duration: string;
-  reward: number;
-  elderlyName: string;
-  elderlyAge: number;
-  elderlyCity: string;
-  distanceKm: number;
-  status: RequestStatus;
-  serviceType: ServiceType;
-  helperId?: string;
-  photoUrl?: string;
-  shoppingList?: string[];
-  helperNote?: string;
+  scheduledDate: string | null;
+  scheduledTime: string;
+  estimatedDuration: string;
+  paymentAmount: number;
+  attachmentUrl: string | null;
+  status: OrderStatus;
   createdAt: string;
+  updatedAt: string;
+  acceptedAt: string | null;
+  startedAt: string | null;
+  completedAt: string | null;
+  relative?: Relative | null;
+  customerProfile?: Profile | null;
+  helperProfile?: Profile | null;
+  helperHelperProfile?: HelperProfile | null;
 }
 
 export interface Review {
   id: string;
-  requestId: string;
-  helperId?: string;
+  orderId: string;
+  customerId: string;
+  helperId: string;
   rating: number;
   comment: string;
-  authorName: string;
   createdAt: string;
-}
-
-export interface ChatMessage {
-  id: string;
-  senderId: string;
-  senderName: string;
-  text: string;
-  timestamp: string;
-  isOwn: boolean;
-}
-
-export interface Conversation {
-  id: string;
-  personName: string;
-  personAvatar: string;
-  lastMessage: string;
-  lastTimestamp: string;
-  unread: number;
-  messages: ChatMessage[];
+  authorName?: string;
 }
